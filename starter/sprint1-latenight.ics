@@ -1,0 +1,235 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//devops-mlops-portfolio//sprint//EN
+CALSCALE:GREGORIAN
+X-WR-CALNAME:Sprint 1 — Portfolio Deep Work
+X-WR-TIMEZONE:Africa/Lagos
+BEGIN:VEVENT
+UID:dw-20260603@portfolio
+DTSTAMP:20260603T211122Z
+DTSTART:20260603T210000Z
+DTEND:20260604T000000Z
+SUMMARY:Deep work: portfolio (one primary outcome)
+DESCRIPTION:Pick ONE outcome + write its Definition of Done. Work in 50/10 blocks. Never Zero on a bad day = 1 commit still counts.
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Deep-work block starts in 30 min — clear your space.
+TRIGGER:-PT30M
+END:VALARM
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Tick your streak + commit + set tomorrow's first task.
+TRIGGER:PT3H0M
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:dw-20260604@portfolio
+DTSTAMP:20260603T211122Z
+DTSTART:20260604T210000Z
+DTEND:20260605T000000Z
+SUMMARY:Deep work: portfolio (one primary outcome)
+DESCRIPTION:Pick ONE outcome + write its Definition of Done. Work in 50/10 blocks. Never Zero on a bad day = 1 commit still counts.
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Deep-work block starts in 30 min — clear your space.
+TRIGGER:-PT30M
+END:VALARM
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Tick your streak + commit + set tomorrow's first task.
+TRIGGER:PT3H0M
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:dw-20260605@portfolio
+DTSTAMP:20260603T211122Z
+DTSTART:20260605T210000Z
+DTEND:20260606T000000Z
+SUMMARY:Deep work: portfolio (one primary outcome)
+DESCRIPTION:Pick ONE outcome + write its Definition of Done. Work in 50/10 blocks. Never Zero on a bad day = 1 commit still counts.
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Deep-work block starts in 30 min — clear your space.
+TRIGGER:-PT30M
+END:VALARM
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Tick your streak + commit + set tomorrow's first task.
+TRIGGER:PT3H0M
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:dw-20260606@portfolio
+DTSTAMP:20260603T211122Z
+DTSTART:20260606T210000Z
+DTEND:20260607T000000Z
+SUMMARY:Deep work: portfolio (one primary outcome)
+DESCRIPTION:Pick ONE outcome + write its Definition of Done. Work in 50/10 blocks. Never Zero on a bad day = 1 commit still counts.
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Deep-work block starts in 30 min — clear your space.
+TRIGGER:-PT30M
+END:VALARM
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Tick your streak + commit + set tomorrow's first task.
+TRIGGER:PT3H0M
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:dw-20260608@portfolio
+DTSTAMP:20260603T211122Z
+DTSTART:20260608T210000Z
+DTEND:20260609T000000Z
+SUMMARY:Deep work: portfolio (one primary outcome)
+DESCRIPTION:Pick ONE outcome + write its Definition of Done. Work in 50/10 blocks. Never Zero on a bad day = 1 commit still counts.
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Deep-work block starts in 30 min — clear your space.
+TRIGGER:-PT30M
+END:VALARM
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Tick your streak + commit + set tomorrow's first task.
+TRIGGER:PT3H0M
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:dw-20260609@portfolio
+DTSTAMP:20260603T211122Z
+DTSTART:20260609T210000Z
+DTEND:20260610T000000Z
+SUMMARY:Deep work: portfolio (one primary outcome)
+DESCRIPTION:Pick ONE outcome + write its Definition of Done. Work in 50/10 blocks. Never Zero on a bad day = 1 commit still counts.
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Deep-work block starts in 30 min — clear your space.
+TRIGGER:-PT30M
+END:VALARM
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Tick your streak + commit + set tomorrow's first task.
+TRIGGER:PT3H0M
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:dw-20260610@portfolio
+DTSTAMP:20260603T211122Z
+DTSTART:20260610T210000Z
+DTEND:20260611T000000Z
+SUMMARY:Deep work: portfolio (one primary outcome)
+DESCRIPTION:Pick ONE outcome + write its Definition of Done. Work in 50/10 blocks. Never Zero on a bad day = 1 commit still counts.
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Deep-work block starts in 30 min — clear your space.
+TRIGGER:-PT30M
+END:VALARM
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Tick your streak + commit + set tomorrow's first task.
+TRIGGER:PT3H0M
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:dw-20260611@portfolio
+DTSTAMP:20260603T211122Z
+DTSTART:20260611T210000Z
+DTEND:20260612T000000Z
+SUMMARY:Deep work: portfolio (one primary outcome)
+DESCRIPTION:Pick ONE outcome + write its Definition of Done. Work in 50/10 blocks. Never Zero on a bad day = 1 commit still counts.
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Deep-work block starts in 30 min — clear your space.
+TRIGGER:-PT30M
+END:VALARM
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Tick your streak + commit + set tomorrow's first task.
+TRIGGER:PT3H0M
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:dw-20260612@portfolio
+DTSTAMP:20260603T211122Z
+DTSTART:20260612T210000Z
+DTEND:20260613T000000Z
+SUMMARY:Deep work: portfolio (one primary outcome)
+DESCRIPTION:Pick ONE outcome + write its Definition of Done. Work in 50/10 blocks. Never Zero on a bad day = 1 commit still counts.
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Deep-work block starts in 30 min — clear your space.
+TRIGGER:-PT30M
+END:VALARM
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Tick your streak + commit + set tomorrow's first task.
+TRIGGER:PT3H0M
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:dw-20260613@portfolio
+DTSTAMP:20260603T211122Z
+DTSTART:20260613T210000Z
+DTEND:20260614T000000Z
+SUMMARY:Deep work: portfolio (one primary outcome)
+DESCRIPTION:Pick ONE outcome + write its Definition of Done. Work in 50/10 blocks. Never Zero on a bad day = 1 commit still counts.
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Deep-work block starts in 30 min — clear your space.
+TRIGGER:-PT30M
+END:VALARM
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Tick your streak + commit + set tomorrow's first task.
+TRIGGER:PT3H0M
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:dw-20260615@portfolio
+DTSTAMP:20260603T211122Z
+DTSTART:20260615T210000Z
+DTEND:20260616T000000Z
+SUMMARY:Deep work: portfolio (one primary outcome)
+DESCRIPTION:Pick ONE outcome + write its Definition of Done. Work in 50/10 blocks. Never Zero on a bad day = 1 commit still counts.
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Deep-work block starts in 30 min — clear your space.
+TRIGGER:-PT30M
+END:VALARM
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Tick your streak + commit + set tomorrow's first task.
+TRIGGER:PT3H0M
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:dw-20260616@portfolio
+DTSTAMP:20260603T211122Z
+DTSTART:20260616T210000Z
+DTEND:20260617T000000Z
+SUMMARY:Deep work: portfolio (one primary outcome)
+DESCRIPTION:Pick ONE outcome + write its Definition of Done. Work in 50/10 blocks. Never Zero on a bad day = 1 commit still counts.
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Deep-work block starts in 30 min — clear your space.
+TRIGGER:-PT30M
+END:VALARM
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Tick your streak + commit + set tomorrow's first task.
+TRIGGER:PT3H0M
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:milestone-20260616@portfolio
+DTSTAMP:20260603T211122Z
+DTSTART;VALUE=DATE:20260616
+SUMMARY:🏁 Sprint 1 ends — ship + retro
+DESCRIPTION:Ship the sprint artifact (commit + README + post). Run the 15-min retro and plan next sprint.
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Sprint retro: what shipped? what to cut? adjust one thing.
+TRIGGER:-PT1H
+END:VALARM
+END:VEVENT
+END:VCALENDAR
