@@ -2,9 +2,10 @@ import os
 import time
 
 import psycopg
-from fastapi import FastAPI
+from fastapi import FastAPI, Response
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
+
 
 DB_URL = os.environ.get(
     "DATABASE_URL",
@@ -50,6 +51,16 @@ class Note(BaseModel):
 @app.get("/healthz")
 def healthz():
     return {"status": "ok"}
+
+@app.get("/readyz")
+def readyz(response: Response):
+    try:
+        with get_conn(retries=1) as conn, conn.cursor() as cur:
+            cur.execute("SELECT 1")
+        return {"status": "ready"}
+    except Exception:
+        response.status_code = 503
+        return {"status": "not ready"}
 
 
 @app.get("/api/notes")
