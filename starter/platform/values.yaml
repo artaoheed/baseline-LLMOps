@@ -1,0 +1,78 @@
+# ──────────────────────────────────────────────────────────────
+# platform chart — values
+# Phase 1: containerized 3-tier app on local kind, packaged as Helm.
+# ──────────────────────────────────────────────────────────────
+
+nameOverride: ""
+fullnameOverride: ""
+
+# ── API tier (FastAPI / uvicorn on :8000) ─────────────────────
+api:
+  image:
+    # ⚠️ RENAME: this is a FastAPI app, not Flask. Set to whatever
+    #    image you actually `kind load docker-image ...`ed.
+    repository: flask-app
+    tag: local
+    pullPolicy: IfNotPresent     # required for kind-loaded images
+  replicaCount: 1
+  containerPort: 8000
+  service:
+    name: flask-app              # ⚠️ keep matching what your React app fetches;
+                                 #    we'll rename to "api" when we wire the frontend
+    port: 80
+    targetPort: 8000
+  env:
+    # FLASK_ENV was a no-op on FastAPI. Rename this key to whatever
+    # main.py reads (or delete if it reads none).
+    APP_ENV: development
+  resources:
+    requests: { cpu: 100m, memory: 128Mi }
+    limits:   { cpu: 250m, memory: 256Mi }
+  # PROBES — defaulted to TCP so `helm install` is green out of the box
+  # (no dependency on a health route existing). Once you confirm your
+  # FastAPI health endpoint, flip type to "http" and set httpPath.
+  probes:
+    type: tcp                    # tcp | http
+    httpPath: /health
+    initialDelaySeconds: 5
+    periodSeconds: 10
+
+# ── Database tier (Postgres) ──────────────────────────────────
+postgres:
+  image:
+    repository: postgres
+    tag: "16-alpine"
+    pullPolicy: IfNotPresent
+  replicaCount: 1
+  containerPort: 5432
+  service:
+    name: postgres               # MUST equal config.POSTGRES_HOST below
+    port: 5432
+  resources:
+    requests: { cpu: 100m, memory: 256Mi }
+    limits:   { cpu: 500m, memory: 512Mi }
+  # Phase 1 = ephemeral storage. PVC swap comes later this phase.
+  storage:
+    type: emptyDir
+
+# ── Non-sensitive config (was configmap.yaml) ─────────────────
+config:
+  POSTGRES_HOST: postgres        # = postgres.service.name
+  POSTGRES_PORT: "5432"
+  POSTGRES_DB: appdb
+
+# ── Secrets ───────────────────────────────────────────────────
+# DO NOT put real values here and DO NOT commit them.
+# Supply at install time:  helm install ... -f secrets.values.yaml
+# (add secrets.values.yaml to .gitignore). Or point existingSecret
+# at a Secret you created out-of-band.
+secret:
+  existingSecret: ""             # if set, chart won't create one
+  POSTGRES_USER: ""
+  POSTGRES_PASSWORD: ""
+  DATABASE_URL: ""               # e.g. postgresql://app:pass@postgres:5432/appdb
+
+# ── Frontend tier (React) ─────────────────────────────────────
+# Disabled until you paste your React manifest and I template it.
+frontend:
+  enabled: false

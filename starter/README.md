@@ -17,12 +17,20 @@ docker compose up --build
 
 ## Architecture
 
-```
-[ React (web:5173) ] ---> [ FastAPI (api:8000) ] ---> [ Postgres (db:5432) ]
-```
+```mermaid
+flowchart LR
+    User([User])
+    Web[Frontend<br/>static / templates]
+    API[Flask API<br/>:5000]
+    DB[(Postgres<br/>:5432)]
 
-_(Replace this with a real diagram — draw.io / Excalidraw / Mermaid — in Phase 0.)_
+    User -->|HTTP :8080| Web
+    Web -->|REST /api| API
+    API -->|psycopg2| DB
 
+    classDef tier fill:#1f2937,stroke:#60a5fa,color:#fff
+    class Web,API,DB tier
+```
 ## What's next
 
 - [ ] Architecture diagram in README
