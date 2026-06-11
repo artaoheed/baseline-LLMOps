@@ -4,7 +4,7 @@
 # ──────────────────────────────────────────────────────────────
 
 nameOverride: ""
-fullnameOverride: ""
+fullnameOverride: "platform"
 
 # ── API tier (FastAPI / uvicorn on :8000) ─────────────────────
 api:
@@ -54,6 +54,7 @@ postgres:
   # Phase 1 = ephemeral storage. PVC swap comes later this phase.
   storage:
     type: emptyDir
+  existingSecret: platform-secret             # if set, chart won't create one; must have POSTGRES_USER, POSTGRES_PASSWORD, DATABASE_URL keys
 
 # ── Non-sensitive config (was configmap.yaml) ─────────────────
 config:
@@ -67,7 +68,7 @@ config:
 # (add secrets.values.yaml to .gitignore). Or point existingSecret
 # at a Secret you created out-of-band.
 secret:
-  existingSecret: ""             # if set, chart won't create one
+  existingSecret: "platform-secret"             # if set, chart won't create one
   POSTGRES_USER: ""
   POSTGRES_PASSWORD: ""
   DATABASE_URL: ""               # e.g. postgresql://app:pass@postgres:5432/appdb
