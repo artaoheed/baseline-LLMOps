@@ -1,0 +1,10 @@
+✅ {{ include "platform.fullname" . }} deployed (release: {{ .Release.Name }})
+
+Check it:
+  kubectl get pods -l app.kubernetes.io/instance={{ .Release.Name }}
+
+Reach the API locally:
+  kubectl port-forward svc/{{ .Values.api.service.name }} 8080:{{ .Values.api.service.port }}
+  # then open http://localhost:8080
+
+Postgres is internal at:  {{ .Values.postgres.service.name }}:{{ .Values.postgres.service.port }}

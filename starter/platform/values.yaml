@@ -72,7 +72,27 @@ secret:
   POSTGRES_PASSWORD: ""
   DATABASE_URL: ""               # e.g. postgresql://app:pass@postgres:5432/appdb
 
-# ── Frontend tier (React) ─────────────────────────────────────
-# Disabled until you paste your React manifest and I template it.
+# ── Frontend tier (React + Vite dev server) ──────────────────
+# Phase 1 ships the dev server (npm run dev). Production multi-stage
+# nginx build is a Phase 2+ improvement.
+# ⚠️ Vite MUST bind to 0.0.0.0 — see frontend/package.json or vite.config.js
 frontend:
-  enabled: false
+  enabled: true
+  image:
+    repository: frontend
+    tag: local
+    pullPolicy: IfNotPresent
+  replicaCount: 1
+  containerPort: 5173
+  service:
+    name: frontend
+    port: 80
+    targetPort: 5173
+  resources:
+    # Vite dev server + node_modules is memory-hungry; give it room
+    requests: { cpu: 100m, memory: 256Mi }
+    limits:   { cpu: 500m, memory: 768Mi }
+  probes:
+    # Dev server takes ~5-15s to be ready on first start
+    initialDelaySeconds: 15
+    periodSeconds: 10

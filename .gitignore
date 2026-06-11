@@ -4,3 +4,4 @@ kind
 sprint1-latenight.ics
 k8s/secrets.yaml
 
+starter/platform/secrets.values.yaml

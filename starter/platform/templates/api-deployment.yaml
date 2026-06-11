@@ -1,0 +1,64 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "platform.fullname" . }}-api
+  labels:
+    {{- include "platform.labels" . | nindent 4 }}
+    app.kubernetes.io/component: api
+spec:
+  replicas: {{ .Values.api.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "platform.selectorLabels" . | nindent 6 }}
+      app.kubernetes.io/component: api
+  template:
+    metadata:
+      labels:
+        {{- include "platform.selectorLabels" . | nindent 8 }}
+        app.kubernetes.io/component: api
+    spec:
+      containers:
+        - name: api
+          image: "{{ .Values.api.image.repository }}:{{ .Values.api.image.tag }}"
+          imagePullPolicy: {{ .Values.api.image.pullPolicy }}
+          ports:
+            - containerPort: {{ .Values.api.containerPort }}
+          envFrom:
+            - configMapRef:
+                name: {{ include "platform.fullname" . }}-config
+            - secretRef:
+                name: {{ include "platform.secretName" . }}
+          {{- with .Values.api.env }}
+          env:
+            {{- range $k, $v := . }}
+            - name: {{ $k }}
+              value: {{ $v | quote }}
+            {{- end }}
+          {{- end }}
+          resources:
+            {{- toYaml .Values.api.resources | nindent 12 }}
+          {{- if eq .Values.api.probes.type "http" }}
+          livenessProbe:
+            httpGet:
+              path: {{ .Values.api.probes.httpPath }}
+              port: {{ .Values.api.containerPort }}
+            initialDelaySeconds: {{ .Values.api.probes.initialDelaySeconds }}
+            periodSeconds: {{ .Values.api.probes.periodSeconds }}
+          readinessProbe:
+            httpGet:
+              path: {{ .Values.api.probes.httpPath }}
+              port: {{ .Values.api.containerPort }}
+            initialDelaySeconds: {{ .Values.api.probes.initialDelaySeconds }}
+            periodSeconds: {{ .Values.api.probes.periodSeconds }}
+          {{- else }}
+          livenessProbe:
+            tcpSocket:
+              port: {{ .Values.api.containerPort }}
+            initialDelaySeconds: {{ .Values.api.probes.initialDelaySeconds }}
+            periodSeconds: {{ .Values.api.probes.periodSeconds }}
+          readinessProbe:
+            tcpSocket:
+              port: {{ .Values.api.containerPort }}
+            initialDelaySeconds: {{ .Values.api.probes.initialDelaySeconds }}
+            periodSeconds: {{ .Values.api.probes.periodSeconds }}
+          {{- end }}
