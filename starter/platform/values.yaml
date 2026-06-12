@@ -80,9 +80,9 @@ secret:
 frontend:
   enabled: true
   image:
-    repository: frontend
-    tag: local
-    pullPolicy: IfNotPresent
+    repository: ghcr.io/artaoheed/platform-frontend
+    tag: latest
+    pullPolicy: Always
   replicaCount: 1
   containerPort: 5173
   service:
@@ -97,3 +97,9 @@ frontend:
     # Dev server takes ~5-15s to be ready on first start
     initialDelaySeconds: 15
     periodSeconds: 10
+
+backend:
+  image:
+    repository: ghcr.io/artaoheed/platform-backend
+    tag: latest
+    pullPolicy: Always 
