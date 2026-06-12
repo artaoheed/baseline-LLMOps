@@ -1,0 +1,22 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: platform
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/artaoheed/baseline-LLMOps.git
+    targetRevision: main
+    path: starter/platform
+    helm:
+      releaseName: platform
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: default
+  syncPolicy:
+    automated:
+      prune: true        # delete resources removed from Git
+      selfHeal: true     # revert manual drift back to Git state
+    syncOptions:
+      - CreateNamespace=true
