@@ -55,6 +55,9 @@ postgres:
   storage:
     type: emptyDir
   existingSecret: platform-secret             # if set, chart won't create one; must have POSTGRES_USER, POSTGRES_PASSWORD, DATABASE_URL keys
+  persistence:
+    enabled: true
+    size: 1Gi
 
 # ── Non-sensitive config (was configmap.yaml) ─────────────────
 config:
@@ -106,3 +109,4 @@ backend:
 ingress:
   enabled: true
   host: platform.localtest.me
+
