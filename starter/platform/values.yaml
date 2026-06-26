@@ -103,3 +103,6 @@ backend:
     repository: ghcr.io/artaoheed/platform-backend
     tag: latest
     pullPolicy: Always 
+ingress:
+  enabled: true
+  host: platform.localtest.me
