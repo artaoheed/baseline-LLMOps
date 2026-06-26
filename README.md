@@ -169,3 +169,5 @@ Moved onto a real (local) Kubernetes cluster (kind). Wrote Deployments, Services
 ---
 
 _Built as part of a structured 6-month DevOps + MLOps portfolio program. Follow along — each phase ships something public._
+## Traffic flow (Phase 2.5 — Ingress)
+Browser → `http://platform.localtest.me:8080` → ingress-nginx controller (port-forwarded) → Ingress resource → `frontend` svc (UI) / `flask-app` svc (API at `/api`)
