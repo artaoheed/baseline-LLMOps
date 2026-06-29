@@ -11,8 +11,8 @@ api:
   image:
     # ⚠️ RENAME: this is a FastAPI app, not Flask. Set to whatever
     #    image you actually `kind load docker-image ...`ed.
-    repository: flask-app
-    tag: local
+    repository: ghcr.io/artaoheed/platform-backend
+    tag: latest
     pullPolicy: IfNotPresent     # required for kind-loaded images
   replicaCount: 1
   containerPort: 8000
