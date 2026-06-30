@@ -6,6 +6,6 @@ export default defineConfig({
   server: {
     host: "0.0.0.0",
     port: 5173,
-    allowedHosts: ["platform.localtest.me", "localhost"],
+    allowedHosts: ["platform.localtest.me", "localhost", "artaoheed.duckdns.org"],
   },
 });
