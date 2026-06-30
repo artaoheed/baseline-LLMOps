@@ -89,7 +89,7 @@ frontend:
   replicaCount: 1
   containerPort: 5173
   env: 
-    VITE_API_URL: "/api"
+    VITE_API_URL: "https://artaoheed.duckdns.org"
   service:
     name: frontend
     port: 80
