@@ -2,12 +2,16 @@
 
 ![CI](https://github.com/artaoheed/baseline-LLMOps/actions/workflows/ci.yml/badge.svg)
 ![Argo CD](https://img.shields.io/badge/GitOps-Argo%20CD-EF7B4D)
-![Kubernetes](https://img.shields.io/badge/Kubernetes-kind-326CE5)
-![License](https://img.shields.io/badge/license-MIT-green)
+![Kubernetes](https://img.shields.io/badge/Kubernetes-k3s%20on%20GCP-326CE5)
+![License](https://img.shields.io/badge/license-MIT-green) [![Live Demo](https://img.shields.io/badge/Live-artaoheed.duckdns.org-2EA44F?logo=googlecloud)](https://artaoheed.duckdns.org)
 
 > A personal internal platform that **builds, tests, scans, and deploys itself**. One small 3-tier app evolving level by level — from "containerized with Compose" toward "operate an LLM service" — as a hands-on DevOps → MLOps → LLMOps portfolio.
 
 Every push to `main` runs CI (test → build → vulnerability scan → publish image), and **Argo CD reconciles the cluster to Git automatically**. No manual `kubectl apply`, no `helm upgrade` — change the code, push, and the platform updates itself.
+
+**🔴 Live:** [https://artaoheed.duckdns.org](https://artaoheed.duckdns.org) — running on a real cloud VM (GCP, `us-central1`), not a local cluster.
+
+---
 
 ---
 
@@ -27,13 +31,15 @@ The interesting part isn't the app; it's the delivery pipeline, the Kubernetes p
 
 ```mermaid
 flowchart LR
-    U[Browser] --> FE[React + Vite frontend]
-    FE --> API[FastAPI backend]
+    U[Browser] -->|HTTPS| ING[Traefik Ingress<br/>Let's Encrypt TLS]
+    ING -->|"/"| FE[React + Vite frontend]
+    ING -->|"/api"| API[FastAPI backend]
     API --> DB[(PostgreSQL)]
     API -. /readyz .-> DB
+    CM[cert-manager] -.->|issues cert| ING
 ```
 
-The backend exposes a `/readyz` readiness probe that verifies it can actually reach Postgres before Kubernetes routes traffic to it.
+The backend exposes a `/readyz` readiness probe that verifies it can actually reach Postgres before Kubernetes routes traffic to it. In production, **Traefik Ingress** terminates TLS using a certificate auto-issued and renewed by **cert-manager** via Let's Encrypt, routing `/` to the frontend and `/api` to the backend on the same domain.
 
 ---
 
@@ -47,14 +53,14 @@ flowchart LR
     D --> E[Trivy scan]
     E --> F[(Push to GHCR)]
     G[Argo CD] -- watches --> H[(Git: Helm chart)]
-    G -- sync --> I[kind cluster]
+    G -- sync --> I[k3s cluster — GCP VM]
     F -. images pulled .-> I
 ```
 
 1. **Push to `main`** triggers GitHub Actions.
 2. CI **tests** both services, **builds** images, **scans** them with Trivy, and **pushes** to GitHub Container Registry (GHCR).
 3. **Argo CD** continuously watches the Helm chart in this repo.
-4. On any change, Argo CD **syncs** the kind cluster to match Git — pulling the freshly published images and applying the desired state.
+4. On any change, Argo CD **syncs** the cluster to match Git — pulling the freshly published images and applying the desired state. As of Phase 3, this cluster is a real **k3s node running on a GCP VM**, not a local dev cluster.
 
 The result: Git is the single source of truth, and the cluster self-heals back to it.
 
@@ -66,25 +72,35 @@ The result: Git is the single source of truth, and the cluster self-heals back t
 |---|---|
 | App | React + Vite, FastAPI, PostgreSQL |
 | Containers | Docker, Docker Compose |
-| Orchestration | Kubernetes (kind), Helm |
+| Orchestration | Kubernetes (k3s), Helm |
+| Infrastructure | Terraform (GCP) |
 | CI | GitHub Actions |
 | Security | Trivy (image vulnerability scanning) |
 | Registry | GitHub Container Registry (GHCR) |
 | GitOps / CD | Argo CD |
+| TLS / Certificates | cert-manager + Let's Encrypt |
+| DNS | DuckDNS |
 | Environment | WSL Ubuntu |
 
 ---
 
 ## Repository structure
 
-```
+Replace with:
+```markdown
 baseline-LLMOps/
 ├── .github/workflows/ci.yml      # CI: test → build → Trivy scan → push to GHCR
 ├── argocd/application.yaml        # Argo CD Application (declarative GitOps)
+├── infra/                         # Terraform — GCP VPC, firewall, k3s VM
+│   ├── main.tf
+│   ├── network.tf
+│   ├── compute.tf
+│   ├── variables.tf
+│   └── outputs.tf
 ├── starter/
 │   ├── backend/                   # FastAPI service + Dockerfile
 │   ├── frontend/                  # React + Vite service + Dockerfile
-│   └── platform/                  # Helm chart (the whole app)
+│   └── platform/                  # Helm chart (the whole app), incl. Ingress + TLS
 └── README.md
 ```
 
@@ -99,7 +115,7 @@ cd starter
 docker compose up --build
 ```
 
-**Option B — Kubernetes + GitOps (the real thing):**
+**Option B — Kubernetes + GitOps (local dev cluster, mirrors the cloud setup):**
 
 ```bash
 # 1. Local cluster
@@ -142,6 +158,22 @@ Moved onto a real (local) Kubernetes cluster (kind). Wrote Deployments, Services
 > ![Argo CD platform app Synced and Healthy](docs/argocd-synced.png)
 > <!-- Save your Argo CD screenshot to docs/argocd-synced.png and it renders here -->
 
+### ✅ Phase 3 — Real cloud infrastructure + public HTTPS
+- **Infrastructure as Code**: VPC, subnet, firewall rules, and a GCE VM provisioned entirely via **Terraform** (`infra/`), on Google Cloud (`us-central1`).
+- **k3s** installed directly on the VM — a real, internet-facing Kubernetes node, not a local dev cluster.
+- **Argo CD redeployed on the cloud cluster**, watching the same Helm chart, same GitOps loop as Phase 2 — now reconciling a production-like environment instead of `kind`.
+- **cert-manager + Let's Encrypt**: TLS certificates issued and renewed automatically via the ACME HTTP-01 challenge.
+- **Traefik Ingress** routes a single public domain to both services: `/` → frontend, `/api` → backend.
+- **Public HTTPS endpoint**: [artaoheed.duckdns.org](https://artaoheed.duckdns.org), backed by a real, trusted certificate — no browser warnings.
+
+> _Live application served over HTTPS with a valid Let's Encrypt certificate:_
+>
+> ![Live HTTPS endpoint](docs/phase3-https-live.png)
+> <!-- Save a screenshot of the browser padlock + app to docs/phase3-https-live.png -->
+
+---
+
+## Roadmap
 ---
 
 ## Roadmap
@@ -151,8 +183,8 @@ Moved onto a real (local) Kubernetes cluster (kind). Wrote Deployments, Services
 | 0 | Containerize & ship (Compose) | ✅ Done |
 | 1 | Local Kubernetes + Helm | ✅ Done |
 | 2 | CI/CD + GitOps + security | ✅ Done |
-| — | Cleanup: Ingress + Postgres PVC (GitOps-style) | ⬜ Next |
-| 3 | Infrastructure-as-Code on a real free cloud (Terraform + Oracle Always Free) | ⬜ Planned |
+| 2.5 | Ingress + Postgres PVC (GitOps-style) | ✅ Done |
+| 3 | Real cloud infrastructure (Terraform + GCP) + public HTTPS | ✅ Done |
 | 4 | Observability + reliability (Prometheus / Grafana / Loki, chaos + runbooks) | ⬜ Planned |
 | 5 | MLOps: serve & monitor a model (MLflow + Evidently) | ⬜ Planned |
 | 6 | LLMOps capstone: operate a RAG/LLM service | ⬜ Planned |
@@ -169,5 +201,8 @@ Moved onto a real (local) Kubernetes cluster (kind). Wrote Deployments, Services
 ---
 
 _Built as part of a structured 6-month DevOps + MLOps portfolio program. Follow along — each phase ships something public._
-## Traffic flow (Phase 2.5 — Ingress)
-Browser → `http://platform.localtest.me:8080` → ingress-nginx controller (port-forwarded) → Ingress resource → `frontend` svc (UI) / `flask-app` svc (API at `/api`)
+## Traffic flow
+
+**Local (kind, Phase 2.5):** Browser → `http://platform.localtest.me:8080` → ingress-nginx controller (port-forwarded) → Ingress resource → `frontend` svc (UI) / `flask-app` svc (API at `/api`)
+
+**Production (k3s on GCP, Phase 3):** Browser → `https://artaoheed.duckdns.org` → Traefik Ingress (TLS terminated, cert from cert-manager/Let's Encrypt) → `frontend` svc (`/`) / `flask-app` svc (`/api`)
