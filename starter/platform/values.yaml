@@ -110,5 +110,10 @@ backend:
     pullPolicy: Always 
 ingress:
   enabled: true
-  host: platform.localtest.me
+  host: artaoheed.duckdns.org
+  className: traefik
+  tls:
+    enabled: true
+    secretName: platform-tls
+    clusterIssuer: letsencrypt-prod
 
