@@ -88,6 +88,8 @@ frontend:
     pullPolicy: Always
   replicaCount: 1
   containerPort: 5173
+  env: 
+    VITE_API_URL: "/api"
   service:
     name: frontend
     port: 80
