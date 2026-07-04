@@ -5,6 +5,7 @@ import psycopg
 from fastapi import FastAPI, Response
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
+from prometheus_fastapi_instrumentator import Instrumentator
 
 
 DB_URL = os.environ.get(
@@ -13,6 +14,7 @@ DB_URL = os.environ.get(
 )
 
 app = FastAPI(title="3-Tier Starter API")
+Instrumentator().instrument(app).expose(app)
 
 app.add_middleware(
     CORSMiddleware,
